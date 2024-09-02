@@ -25,10 +25,6 @@ public class ClienteController {
   @Autowired
   ClienteRepository repository;
 
-  public ClienteController() {
-
-  }
-
   @GetMapping("/clientes")
   public ResponseEntity<List<Cliente>> getAllClientes() {
     return new ResponseEntity<List<Cliente>>(repository.findAll(), HttpStatus.OK);
@@ -58,7 +54,7 @@ public class ClienteController {
 
   }
 
-  @DeleteMapping("/api/cliente/{id}")
+  @DeleteMapping("/clientes/{id}")
   public ResponseEntity<Void> deleteCliente(@PathVariable("id") long id) {
     Optional<Cliente> clienteData = repository.findById(id);
 

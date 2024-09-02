@@ -106,11 +106,12 @@
         <h2>Deletar Cliente</h2>
         <form id="deleteClientForm">
           <label for="deleteClientId">ID do Cliente:</label>
-          <input type="number" id="deleteClientId" name="deleteClientId" required>
+          <input type="text" id="deleteClientId" name="deleteClientId" required>
           <button type="submit">Deletar Cliente</button>
         </form>
       </div>
     </section>
+
 
     <section class="container">
       <div class="form-container">
@@ -133,6 +134,15 @@
         <h2>Lista de Quartos</h2>
         <ul id="roomList"></ul>
       </div>
+      <div class="form-container">
+        <h2>Deletar Quarto</h2>
+        <form id="deleteQuartoForm">
+          <label for="deleteQuartoId">ID do Quarto:</label>
+          <input type="text" id="deleteQuartoId" name="deleteQuartoId" required>
+          <button type="submit">Deletar Quarto</button>
+        </form>
+      </div>
+
     </section>
 
     <section class="container">
@@ -163,6 +173,29 @@
   </main>
 
   <script>
+    /*document.getElementById('createClientForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const nome = document.getElementById('nome').value;
+      const cpf = document.getElementById('cpf').value;
+      const email = document.getElementById('email').value;
+
+      fetch('http://localhost:8080/api/clientes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nome, cpf, email })
+      })
+        .then(response => response.json())
+        .then(data => {
+          alert('Cliente criado com sucesso!');
+          fetchClients();
+        });
+    });
+
+    document.getElementById('deleteClientForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const clientId = document.getElementById('deleteClientId').value;
+      deleteCliente(nome);
+    });*/
     document.getElementById('createClientForm').addEventListener('submit', function (e) {
       e.preventDefault();
       const nome = document.getElementById('nome').value;
@@ -180,13 +213,30 @@
           fetchClients();
         });
     });
-    // Função para deletar cliente pelo ID do formulário
     document.getElementById('deleteClientForm').addEventListener('submit', function (e) {
       e.preventDefault();
       const clientId = document.getElementById('deleteClientId').value;
       deleteCliente(clientId);
     });
 
+
+    function deleteCliente(clientId) {
+      fetch(`http://localhost:8080/api/clientes/${clientId}`, {
+        method: 'DELETE'
+      })
+        .then(response => {
+          if (response.ok) {
+            alert('Cliente deletado com sucesso!');
+            fetchClients();
+          } else {
+            alert('Erro ao deletar cliente');
+          }
+        })
+        .catch(error => {
+          console.error('Erro ao deletar cliente:', error);
+          alert('Erro ao deletar cliente');
+        });
+    }
 
 
     document.getElementById('createRoomForm').addEventListener('submit', function (e) {
@@ -206,6 +256,31 @@
           fetchRooms();
         });
     });
+
+    document.getElementById('deleteQuartoForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const quartoId = document.getElementById('deleteQuartoId').value;
+      deleteQuarto(quartoId);
+    });
+
+    function deleteQuarto(quartoId) {
+      fetch(`http://localhost:8080/api/quartos/${quartoId}`, {
+        method: 'DELETE'
+      })
+        .then(response => {
+          if (response.ok) {
+            alert('Quarto deletado com sucesso!');
+            fetchRooms(); 
+          } else {
+            alert('Erro ao deletar quarto');
+          }
+        })
+        .catch(error => {
+          console.error('Erro ao deletar quarto:', error);
+          alert('Erro ao deletar quarto');
+        });
+    }
+
 
     document.getElementById('createReservationForm').addEventListener('submit', function (e) {
       e.preventDefault();
